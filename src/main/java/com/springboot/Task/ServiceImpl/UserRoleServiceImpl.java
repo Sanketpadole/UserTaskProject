@@ -2,25 +2,20 @@ package com.springboot.Task.ServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+
 import org.springframework.stereotype.Service;
 
-import com.springboot.Task.Dto.IPermissionListDto;
-import com.springboot.Task.Dto.PermissionDto;
-import com.springboot.Task.Dto.UseRoleListDto;
 import com.springboot.Task.Dto.UserRoleRequestDto;
-import com.springboot.Task.Entity.PermissionEntity;
+
 import com.springboot.Task.Entity.RoleEntity;
 import com.springboot.Task.Entity.UserRoleEntity;
 import com.springboot.Task.Entity.UserRoleId;
 import com.springboot.Task.Entity.Users;
-import com.springboot.Task.Page.Pagination;
+
 import com.springboot.Task.Repository.AuthRepository;
-import com.springboot.Task.Repository.PermissionRepository;
+
 import com.springboot.Task.Repository.RoleRepository;
 import com.springboot.Task.Repository.UserRoleRepository;
 import com.springboot.Task.Repository.UsersRepository;
@@ -63,7 +58,7 @@ public class UserRoleServiceImpl implements UserRoleServiceInterface {
 			userRoleEntity.setPk(user);
 			userRoles.add(userRoleEntity);
 
-			userRoleRepository.saveAll(userRoles);
+			this.userRoleRepository.saveAll(userRoles);
 
 		} catch (Exception e) {
 			throw new ResourceNotFoundException("Not found");

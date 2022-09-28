@@ -13,7 +13,6 @@ import org.springframework.data.repository.query.Param;
 import com.springboot.Task.Dto.IPermissionIdList;
 import com.springboot.Task.Entity.RolePermissionEntity;
 
-
 public interface RolePermissionRepository extends JpaRepository<RolePermissionEntity, Long> {
 
 	@Transactional
@@ -22,7 +21,5 @@ public interface RolePermissionRepository extends JpaRepository<RolePermissionEn
 	void updateRolePermission(@Param("role_id") Long long1, @Param("permission_id") Long long2);
 
 	List<IPermissionIdList> findPkPermissionByPkRoleIdIn(ArrayList<Long> roles, Class<IPermissionIdList> class1);
-
-
 
 }

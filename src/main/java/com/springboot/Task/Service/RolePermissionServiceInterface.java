@@ -21,8 +21,6 @@ public interface RolePermissionServiceInterface {
 
 	void DeleteRolePermission(RolePermissionDto rolePermissionDto);
 
-//	ArrayList<String> getPermissionByUserId(Long id);
-
 	ArrayList<String> getPermissionByUserId(Long userId);
 
 }

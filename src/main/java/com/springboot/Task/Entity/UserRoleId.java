@@ -8,34 +8,34 @@ public class UserRoleId implements Serializable {
 	@ManyToOne
 	private Users user;
 
+	@ManyToOne
+	private RoleEntity role;
+
 	public UserRoleId() {
 		super();
 
 	}
 
-	public UserRoleId(Users user, RoleEntity roleEntity) {
+	public UserRoleId(Users user, RoleEntity role) {
 		super();
 		this.user = user;
-		this.roleEntity = roleEntity;
+		this.role = role;
 	}
 
-	public Users getUserEntity() {
+	public Users getUser() {
 		return user;
 	}
 
-	public void setUserEntity(Users userEntity) {
+	public void setUser(Users user) {
 		this.user = user;
 	}
 
-	public RoleEntity getRoleEntity() {
-		return roleEntity;
+	public RoleEntity getRole() {
+		return role;
 	}
 
-	public void setRoleEntity(RoleEntity roleEntity) {
-		this.roleEntity = roleEntity;
+	public void setRole(RoleEntity role) {
+		this.role = role;
 	}
-
-	@ManyToOne
-	private RoleEntity roleEntity;
 
 }

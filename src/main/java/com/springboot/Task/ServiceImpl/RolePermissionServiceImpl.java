@@ -37,21 +37,14 @@ public class RolePermissionServiceImpl implements RolePermissionServiceInterface
 
 	@Override
 	public RolePermissionDto addRolepermission(RolePermissionDto rolePermissionDto) {
-		System.out.println("wfgh");
 
 		ArrayList<RolePermissionEntity> rolePermission = new ArrayList<>();
-		System.out.println("qgi");
-//		RoleEntity roleEntity1 = this.roleEntityRepository.findById(rolePermissionDto.getRoleid())
-//				.orElseThrow(() -> new ResourceNotFoundException("not found"));
 
 		RoleEntity roleEntity1 = this.roleEntityRepository.findById(rolePermissionDto.getRoleid())
 				.orElseThrow(() -> new ResourceNotFoundException("not found"));
-		System.out.println("gk");
-		System.out.println("role" + roleEntity1);
 
 		PermissionEntity permissionEntity1 = this.permissionRepository.findById(rolePermissionDto.getPermissionid())
 				.orElseThrow(() -> new ResourceNotFoundException("permission not found"));
-		System.out.println("role" + permissionEntity1);
 
 		RolePermissionEntity rolePermissionEntity = new RolePermissionEntity();
 		RolePermissionId rolePermissionId = new RolePermissionId(roleEntity1, permissionEntity1);
@@ -64,14 +57,12 @@ public class RolePermissionServiceImpl implements RolePermissionServiceInterface
 
 	@Override
 	public void update(RolePermissionDto rolePermissionDto) {
-		System.out.println("qefgh");
 
 		RoleEntity roleEntity = this.roleEntityRepository.findById(rolePermissionDto.getRoleid())
 				.orElseThrow(() -> new ResourceNotFoundException("not found"));
 
 		PermissionEntity permissionEntity = this.permissionRepository.findById(rolePermissionDto.getPermissionid())
 				.orElseThrow(() -> new ResourceNotFoundException("permission not found"));
-		System.out.println("fhj");
 
 		if (roleEntity != null && permissionEntity != null) {
 			ArrayList<RolePermissionEntity> rolePermission = new ArrayList<>();
@@ -99,11 +90,9 @@ public class RolePermissionServiceImpl implements RolePermissionServiceInterface
 	public void delete(RolePermissionDto rolePermissionDto) {
 		RoleEntity roleEntity = this.roleEntityRepository.findById(rolePermissionDto.getRoleid())
 				.orElseThrow(() -> new ResourceNotFoundException("not found"));
-		System.out.println("vj" + roleEntity);
 
 		PermissionEntity permissionEntity = this.permissionRepository.findById(rolePermissionDto.getPermissionid())
 				.orElseThrow(() -> new ResourceNotFoundException("permission not found"));
-		System.out.println("afhj" + permissionEntity);
 
 		if (roleEntity != null && permissionEntity != null) {
 			ArrayList<RolePermissionEntity> rolePermission = new ArrayList<>();
@@ -113,7 +102,7 @@ public class RolePermissionServiceImpl implements RolePermissionServiceInterface
 			rolePermissionId.setRole(roleEntity);
 			rolePermissionEntity.setPk(rolePermissionId);
 			rolePermission.add(rolePermissionEntity);
-			System.out.println("af");
+
 			rolePermissionRepository.delete(rolePermissionEntity);
 
 		} else {
@@ -126,30 +115,22 @@ public class RolePermissionServiceImpl implements RolePermissionServiceInterface
 
 	}
 
-//	public ArrayList<String> getPermissionByUserId(Long id) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-
-
-
-
 	@Override
-	public ArrayList<String> getPermissionByUserId(Long userId){
-		System.out.println("aefh");
+	public ArrayList<String> getPermissionByUserId(Long userId) {
 
 		ArrayList<UserRoleEntity> roleIds = userRoleEntityRepository.getRolesOfUser(userId);
 		ArrayList<Long> roles = new ArrayList<>();
 
 		for (int i = 0; i < roleIds.size(); i++) {
 
-			roles.add(roleIds.get(i).getPk().getRoleEntity().getId());
+			roles.add(roleIds.get(i).getPk().getRole().getId());
 
 		}
 
-		List<IPermissionIdList> rolesPermission = rolePermissionRepository.findPkPermissionByPkRoleIdIn(roles, IPermissionIdList.class);
+		List<IPermissionIdList> rolesPermission = rolePermissionRepository.findPkPermissionByPkRoleIdIn(roles,
+				IPermissionIdList.class);
 		ArrayList<String> permissions = new ArrayList<>();
-		System.out.println("asfjgh");
+
 		for (IPermissionIdList element : rolesPermission) {
 
 			permissions.add(element.getPkPermissionActionName());
@@ -159,4 +140,4 @@ public class RolePermissionServiceImpl implements RolePermissionServiceInterface
 		return permissions;
 
 	}
-	}
+}

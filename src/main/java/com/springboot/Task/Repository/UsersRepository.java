@@ -6,4 +6,6 @@ import com.springboot.Task.Entity.Users;
 
 public interface UsersRepository extends JpaRepository<Users, Long> {
 
+	Users findByEmail(String email);
+
 }

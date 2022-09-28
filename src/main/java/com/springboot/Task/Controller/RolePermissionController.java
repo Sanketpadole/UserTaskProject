@@ -30,12 +30,12 @@ public class RolePermissionController {
 	@PostMapping
 	public ResponseEntity<?> userRoleEntities(@RequestBody RolePermissionDto rolePermissionDto) {
 		try {
-			System.out.println("qwfrgi");
+
 			RolePermissionDto permissionDto = rolePermissionServiceInterface.addRolepermission(rolePermissionDto);
 
 			return new ResponseEntity<>(permissionDto, HttpStatus.CREATED);
 		} catch (Exception e) {
-			System.out.println("error ");
+
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
 		}
@@ -53,13 +53,11 @@ public class RolePermissionController {
 		rolePermissionServiceInterface.update(rolePermissionDto);
 
 	}
-	
-	
-	
+
 	@GetMapping("/users/{id}")
 	public ResponseEntity<?> getPermissionByUserId(@PathVariable("id") Long id) {
 		try {
-			System.out.println("awfwj");
+
 			ArrayList<String> user = this.rolePermissionServiceInterface.getPermissionByUserId(id);
 
 			return new ResponseEntity<>(

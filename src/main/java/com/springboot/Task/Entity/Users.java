@@ -9,10 +9,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
+
+@Where(clause = "is_Active=true")
+@SQLDelete(sql = "UPDATE USERS SET is_active=false WHERE id=?")
 public class Users implements UserDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,6 +26,15 @@ public class Users implements UserDetails {
 	private String username;
 	private String password;
 	private String email;
+	private boolean isActive = true;
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
 
 	public Users() {
 		super();

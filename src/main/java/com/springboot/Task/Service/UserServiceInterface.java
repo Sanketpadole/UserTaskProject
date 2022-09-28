@@ -4,18 +4,22 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-
 import com.springboot.Task.Dto.UsersDto;
+import com.springboot.Task.Entity.Users;
 
 @Service
 public interface UserServiceInterface {
 
-	UsersDto getUserId(Long id);
+	Users FindByEmail(String email);
 
-	UsersDto update(UsersDto roleDto, Long id);
+	List<UsersDto> getAllUser();
 
-	void delete(Long id);
+	void deleteUser(Long userId);
 
-	List<UsersDto> getAll();
+	UsersDto updateUser(UsersDto userDto, Long id);
+
+	UsersDto getUserById(Long id);
+
+	Users creatUser(UsersDto userDto);
 
 }

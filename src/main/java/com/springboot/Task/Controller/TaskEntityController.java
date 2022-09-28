@@ -42,19 +42,19 @@ public class TaskEntityController {
 
 	}
 
-	@GetMapping
-	public ResponseEntity<?> getAllTasks(@RequestParam(defaultValue = "") String Search,
-			@RequestParam(defaultValue = "1") String pageNumber, @RequestParam(defaultValue = "20") String pageSize) {
-		System.out.println("asjh");
-		Page<ITaskEntityDto> allRoles = taskEntityInterface.getAllRoles(Search, pageNumber, pageSize);
-		System.out.println("ajh");
-		if (allRoles.getTotalElements() != 0) {
-			System.out.println("sdfj");
-			return new ResponseEntity<>(allRoles.getContent(), HttpStatus.OK);
-		}
-		return new ResponseEntity<SuccessResponseDto>(new SuccessResponseDto("not found", "not found", null),
-				HttpStatus.BAD_REQUEST);
-	}
+//	@GetMapping
+//	public ResponseEntity<?> getAllTasks(@RequestParam(defaultValue = "") String Search,
+//			@RequestParam(defaultValue = "1") String pageNumber, @RequestParam(defaultValue = "20") String pageSize) {
+//		System.out.println("asjh");
+//		Page<ITaskEntityDto> allRoles = taskEntityInterface.getAlltasks(Search, pageNumber, pageSize);
+//		System.out.println("ajh");
+//		if (allRoles.getTotalElements() != 0) {
+//			System.out.println("sdfj");
+//			return new ResponseEntity<>(allRoles.getContent(), HttpStatus.OK);
+//		}
+//		return new ResponseEntity<SuccessResponseDto>(new SuccessResponseDto("not found", "not found", null),
+//				HttpStatus.BAD_REQUEST);
+//	}
 
 	@GetMapping("/{id}")
 	public TaskEntityDto getTaskByDto(@PathVariable Long id) {

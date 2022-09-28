@@ -4,7 +4,6 @@ public class ErrorResponseDto {
 
 	public ErrorResponseDto() {
 
-		// TODO Auto-generated constructor stub
 	}
 
 	public ErrorResponseDto(String message, String msgKey) {

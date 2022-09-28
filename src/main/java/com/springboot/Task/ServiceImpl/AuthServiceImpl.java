@@ -1,17 +1,15 @@
 package com.springboot.Task.ServiceImpl;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 
 import com.springboot.Task.Dto.UsersDto;
 import com.springboot.Task.Entity.Users;
@@ -26,12 +24,9 @@ public class AuthServiceImpl implements AuthInterface, UserDetailsService {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
+
 	@Autowired
 	private RolePermissionServiceImpl rolePermissionServiceImpl;
-	
-	
-	
 
 	@Override
 	public void registerUser(UsersDto usersDto) {
@@ -46,34 +41,30 @@ public class AuthServiceImpl implements AuthInterface, UserDetailsService {
 
 	}
 
-	public boolean comparePassword(String password, String hashPassword) {
-
-		return passwordEncoder.matches(password, hashPassword);
-	}
-
-	public UserDetails loadUserByUsername(String username) {
-		Users users;
-		{
-			users = this.authRepository.findByUsername(username);
-			System.out.println("wrhj"+users);
-			if (users == null) {
-				System.out.println("user not found");
-			}
+	@Override
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		Users user;
+		user = authRepository.findByEmail(email);
+		System.out.println("afh" + user);
+		if (user == null) {
+			throw new UsernameNotFoundException("User not found with Email: " + email);
 		}
-//		return users;
-		return new org.springframework.security.core.userdetails.User(users.getEmail(), users.getPassword(),
-				getAuthority(users));
+
+		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
+				getAuthority(user));
 	}
-	
-	
+
 	private ArrayList<SimpleGrantedAuthority> getAuthority(Users user) {
 		ArrayList<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
 		if ((user.getId() + "permission") != null) {
 			ArrayList<SimpleGrantedAuthority> authorities1 = new ArrayList<>();
-			System.out.println("efjh");
+
+			System.out.println("auth1233" + authorities1);
 
 			ArrayList<String> permissions = this.rolePermissionServiceImpl.getPermissionByUserId(user.getId());
+
+			System.out.println("permission" + permissions);
 
 			permissions.forEach(e -> {
 				authorities1.add(new SimpleGrantedAuthority("ROLE_" + e));
@@ -82,15 +73,12 @@ public class AuthServiceImpl implements AuthInterface, UserDetailsService {
 			authorities = authorities1;
 
 		}
+		System.out.println("authorites>>>>>" + authorities);
 		return authorities;
 	}
 
-	
-
-	
-	
-	
-	
-
-
+	@Override
+	public Boolean comparePassword(String password, String hashPassword) {
+		return passwordEncoder.matches(password, hashPassword);
+	}
 }

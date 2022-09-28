@@ -10,7 +10,11 @@ public class Pagination {
 
 	}
 
-	public Pageable getPagination(String pageNumber, String pageSize) {
-		return PageRequest.of(Integer.parseInt(pageNumber) - 1, Integer.parseInt(pageSize));
+	public Pageable getPagination(String pageNumber,String Search) {
+		return PageRequest.of(Integer.parseInt(pageNumber) - 1, Integer.parseInt(Search));
+		
+		
 	}
+
+
 }

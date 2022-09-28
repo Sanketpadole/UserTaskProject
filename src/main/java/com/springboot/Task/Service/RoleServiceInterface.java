@@ -12,8 +12,6 @@ public interface RoleServiceInterface {
 
 	void addRoles(RoleDto roleDto);
 
-//	Page<ITaskListDto> getAllRoles(String search, String pageNumber, String pageSize);
-
 	void deleteRoles(Long id);
 
 	void updateRoles(Long id, RoleDto roleDto);

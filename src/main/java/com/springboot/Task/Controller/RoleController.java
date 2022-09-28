@@ -42,8 +42,8 @@ public class RoleController {
 
 		roleServiceInterface.updateRoles(id, roleDto);
 
-		return new ResponseEntity<SuccessResponseDto>(new SuccessResponseDto("RoleUpdatedSuccessfully", "Role", roleDto),
-				HttpStatus.ACCEPTED);
+		return new ResponseEntity<SuccessResponseDto>(
+				new SuccessResponseDto("RoleUpdatedSuccessfully", "Role", roleDto), HttpStatus.ACCEPTED);
 	}
 
 	@GetMapping
