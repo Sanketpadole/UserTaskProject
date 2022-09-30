@@ -20,7 +20,7 @@ import org.hibernate.annotations.Where;
 @Table(name = "user_role")
 @Where(clause = "is_active=true")
 
-@SQLDelete(sql = "UPDATE user_role u SET is_active=false WHERE u.role_entity_id=? AND u.user_entity_id=?")
+@SQLDelete(sql = "UPDATE user_role u SET is_active=false WHERE u.role_id=? AND u.user_id=?")
 @AssociationOverrides({ @AssociationOverride(name = "pk.users", joinColumns = @JoinColumn(name = "user_id")),
 		@AssociationOverride(name = "pk.roles", joinColumns = @JoinColumn(name = "role_id")) })
 public class UserRoleEntity implements Serializable {

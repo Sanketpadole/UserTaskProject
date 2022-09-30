@@ -4,16 +4,40 @@ package com.springboot.Task.Dto;
 
 
 
+
+
+
+
+
+
 import java.sql.Date;
 
 import com.springboot.Task.Entity.StatusEnum;
 
 public class TaskEntityDto {
+	private Long taskId;
+	public TaskEntityDto(Long taskId, String taskName, String description, Date startDate, Date endDate, Long userId,
+			StatusEnum statusEnum) {
+		super();
+		this.taskId = taskId;
+		this.taskName = taskName;
+		this.description = description;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.userId = userId;
+		this.statusEnum = statusEnum;
+	}
+	public Long getTaskId() {
+		return taskId;
+	}
+	public void setTaskId(Long taskId) {
+		this.taskId = taskId;
+	}
 	private String taskName;
 	private String description;
 	
-	private Long startDate;
-	private Long endDate;
+	private Date startDate;
+	private Date endDate;
 	private Long userId;
 	private StatusEnum statusEnum;
 	public String getTaskName() {
@@ -28,16 +52,16 @@ public class TaskEntityDto {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Long getStartDate() {
+	public Date getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(Long startDate) {
+	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
-	public Long getEndDate() {
+	public Date getEndDate() {
 		return endDate;
 	}
-	public void setEndDate(Long endDate) {
+	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
 	public Long getUserId() {
@@ -52,7 +76,7 @@ public class TaskEntityDto {
 	public void setStatusEnum(StatusEnum statusEnum) {
 		this.statusEnum = statusEnum;
 	}
-	public TaskEntityDto(String taskName, String description, Long startDate, Long endDate, Long userId,
+	public TaskEntityDto(String taskName, String description, Date startDate, Date endDate, Long userId,
 			StatusEnum statusEnum) {
 		super();
 		this.taskName = taskName;

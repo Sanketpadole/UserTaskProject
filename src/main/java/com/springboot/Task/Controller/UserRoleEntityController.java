@@ -59,7 +59,9 @@ public class UserRoleEntityController {
 
 	@PutMapping
 	public ResponseEntity<?> update(@RequestBody UserRoleRequestDto userRoleRequestDto) {
+		System.out.println("safkjwhg");
 		try {
+			System.out.println("sfghe");
 
 			this.userRoleServiceInterface.editUserRole(userRoleRequestDto);
 			return new ResponseEntity<>(new SuccessResponseDto("Success", "Success", userRoleRequestDto),

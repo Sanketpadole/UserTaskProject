@@ -77,10 +77,12 @@ public class UserRoleServiceImpl implements UserRoleServiceInterface {
 
 	@Override
 	public void editUserRole(UserRoleRequestDto userRoleRequestDto) {
+		System.out.println("wrhg");
 
 		ArrayList<UserRoleEntity> userRoles = new ArrayList<>();
 		Users userId = this.authRepository.findById(userRoleRequestDto.getUserId())
 				.orElseThrow(() -> new ResourceNotFoundException("not Found"));
+		System.out.println("eqj");
 		RoleEntity roleEntityId = roleRepository.findById(userRoleRequestDto.getRoleId())
 				.orElseThrow(() -> new ResourceNotFoundException("not Found Id"));
 
@@ -95,14 +97,17 @@ public class UserRoleServiceImpl implements UserRoleServiceInterface {
 
 	@Override
 	public void deleteUserRoles(UserRoleRequestDto userRoleRequest) {
-
+		System.out.println("ahjw");
 		Users user = this.authRepository.findById(userRoleRequest.getUserId()).get();
-
+		System.out.println("sjk"+user);
 		RoleEntity entity = this.roleRepository.findById(userRoleRequest.getRoleId()).get();
+		System.out.println("fq"+entity);
 
 		UserRoleId userRoleId = new UserRoleId(user, entity);
 		UserRoleEntity roleEntity = new UserRoleEntity();
 		roleEntity.setPk(userRoleId);
+		System.out.println("qweh");
+		
 
 		this.userRoleRepository.delete(roleEntity);
 

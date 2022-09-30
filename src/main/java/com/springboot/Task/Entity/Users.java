@@ -27,6 +27,21 @@ public class Users implements UserDetails {
 	private String password;
 	private String email;
 	private boolean isActive = true;
+	
+
+	public Users(Long id, String username, String password, String email, boolean isActive) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.email = email;
+		this.isActive = isActive;
+		
+	}
+
+	
+
+	
 
 	public boolean isActive() {
 		return isActive;

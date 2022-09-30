@@ -23,8 +23,6 @@ import com.springboot.Task.Security.JwtTokenUtil;
 import com.springboot.Task.Service.AuthInterface;
 import com.springboot.Task.ServiceImpl.AuthServiceImpl;
 
-import Exception.ResourceNotFoundException;
-
 @RestController
 @RequestMapping
 public class AuthController {
@@ -43,15 +41,15 @@ public class AuthController {
 	@PostMapping("/register")
 
 	ResponseEntity<?> registerUser(@RequestBody UsersDto usersDto) {
-		String password=usersDto.getPassword();
+		String password = usersDto.getPassword();
 		if (PasswordValidator.isValid(password)) {
 
-		this.authInterface.registerUser(usersDto);
-		return new ResponseEntity<SuccessResponseDto>(new SuccessResponseDto("success", "success", null),
-				HttpStatus.ACCEPTED);
-	}
-		else {
-			return new ResponseEntity<ErrorResponseDto>(new ErrorResponseDto("Password not valid", password), HttpStatus.BAD_REQUEST);
+			this.authInterface.registerUser(usersDto);
+			return new ResponseEntity<SuccessResponseDto>(new SuccessResponseDto("success", "success", null),
+					HttpStatus.ACCEPTED);
+		} else {
+			return new ResponseEntity<ErrorResponseDto>(new ErrorResponseDto("Password not valid", password),
+					HttpStatus.BAD_REQUEST);
 		}
 	}
 
@@ -61,41 +59,41 @@ public class AuthController {
 
 		try {
 			Users users = new Users();
-			
+
 			users = this.authRepository.findByEmail(usersDto.getEmail());
-			String password=usersDto.getPassword();
+			String password = usersDto.getPassword();
 			if (PasswordValidator.isValid(password)) {
 
-			if (this.authServiceImpl.comparePassword(password, users.getPassword())) {
+				if (this.authServiceImpl.comparePassword(password, users.getPassword())) {
 
-				final UserDetails userDetails = this.authServiceImpl.loadUserByUsername(usersDto.getEmail());
+					final UserDetails userDetails = this.authServiceImpl.loadUserByUsername(usersDto.getEmail());
 
-				users = this.authRepository.findByEmail(usersDto.getEmail());
+					users = this.authRepository.findByEmail(usersDto.getEmail());
 
-				final String token = jwtTokenUtil.generateToken(userDetails);
+					final String token = jwtTokenUtil.generateToken(userDetails);
 
-				LoggerEntity logger = new LoggerEntity();
-				logger.setToken(token);
-				logger.setUserId(users);
-				Calendar calendar = Calendar.getInstance();
+					LoggerEntity logger = new LoggerEntity();
+					logger.setToken(token);
+					logger.setUserId(users);
+					Calendar calendar = Calendar.getInstance();
 
-				calendar.add(Calendar.HOUR_OF_DAY, 5);
+					calendar.add(Calendar.HOUR_OF_DAY, 5);
 
-				logger.setExpireAt(calendar.getTime());
+					logger.setExpireAt(calendar.getTime());
 
-				this.loggerRepositoty.save(logger);
+					this.loggerRepositoty.save(logger);
 
-				return new ResponseEntity<SuccessResponseDto>(new SuccessResponseDto("Token Created", "Token", token),
-						HttpStatus.ACCEPTED);
+					return new ResponseEntity<SuccessResponseDto>(
+							new SuccessResponseDto("Token Created", "Token", token), HttpStatus.ACCEPTED);
 
+				} else {
+					throw new Exception("invalid username");
+
+				}
 			} else {
-				throw new Exception("invalid username");
+				return new ResponseEntity<ErrorResponseDto>(new ErrorResponseDto("Password not valid", password),
+						HttpStatus.BAD_REQUEST);
 
-			}
-			}
-			else {
-				return new ResponseEntity<ErrorResponseDto>(new ErrorResponseDto("Password not valid", password), HttpStatus.BAD_REQUEST);
-				
 			}
 
 		} catch (Exception e) {

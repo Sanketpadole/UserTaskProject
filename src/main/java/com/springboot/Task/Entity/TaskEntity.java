@@ -3,6 +3,11 @@ package com.springboot.Task.Entity;
 
 
 
+
+
+
+
+
 import java.sql.Date;
 
 import javax.persistence.Entity;
@@ -31,8 +36,8 @@ public class TaskEntity {
 	private String taskName;
 
 	private String description;
-	private Long startDate;
-	private Long endDate;
+	private Date startDate;
+	private Date endDate;
 	private boolean isActive = true;
 
 	@Enumerated(EnumType.STRING)
@@ -66,19 +71,19 @@ public class TaskEntity {
 		this.description = description;
 	}
 
-	public Long getStartDate() {
+	public Date getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Long startDate) {
+	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
 
-	public Long getEndDate() {
+	public Date getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Long endDate) {
+	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
 
@@ -106,7 +111,7 @@ public class TaskEntity {
 		this.userId = userId;
 	}
 
-	public TaskEntity(Long id, String taskName, String description, Long startDate, Long endDate, boolean isActive,
+	public TaskEntity(Long id, String taskName, String description, Date startDate, Date endDate, boolean isActive,
 			StatusEnum statusEnum, Users userId) {
 		super();
 		this.id = id;
@@ -122,6 +127,11 @@ public class TaskEntity {
 	public TaskEntity() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+
+	public void setUserId(Long userId2) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	

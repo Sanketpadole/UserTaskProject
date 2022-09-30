@@ -1,7 +1,6 @@
 package com.springboot.Task.Repository;
 
 import java.util.ArrayList;
-import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -11,7 +10,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.springboot.Task.Entity.TaskEntity;
 import com.springboot.Task.Entity.UserRoleEntity;
 
 @Repository

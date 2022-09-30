@@ -1,12 +1,17 @@
 package com.springboot.Task.Dto;
 
+import java.util.Date;
+
+import com.springboot.Task.Entity.StatusEnum;
+
 public interface ITaskEntityDto {
 	public String getTaskName();
 
 	public String getDescription();
 
-	public Long getStartDate();
+	public Date getStartDate();
 
-	public Long getEndDate();
+	public Date getEndDate();
+	public StatusEnum getStatusEnum();
 
 }

@@ -1,5 +1,8 @@
 package com.springboot.Task.ServiceImpl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,13 +11,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
+
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.springboot.Task.Dto.ITaskEntityDto;
 import com.springboot.Task.Dto.SuccessResponseDto;
 import com.springboot.Task.Dto.TaskEntityDto;
-import com.springboot.Task.Dto.TaskEnumDto;
+import com.springboot.Task.Entity.StatusEnum;
 import com.springboot.Task.Entity.TaskEntity;
 import com.springboot.Task.Entity.TaskHistory;
 import com.springboot.Task.Entity.UserRoleEntity;
@@ -56,11 +59,20 @@ public class TaskEntityServiceImpl implements TaskEntityInterface {
 		taskEntity.setStartDate(taskEntityDto.getStartDate());
 		taskEntity.setEndDate(taskEntityDto.getEndDate());
 		taskEntity.setStatusEnum(taskEntityDto.getStatusEnum());
-		taskEntity.setUserId(users);
+//		taskEntity.setUserId(users);
 
 		taskEntityRepository.save(taskEntity);
 
 	}
+	
+	
+
+	
+	
+	
+	
+	
+	
 
 	@Override
 	public void updateTask(TaskEntityDto taskEntityDto, Long id) {
@@ -79,18 +91,30 @@ public class TaskEntityServiceImpl implements TaskEntityInterface {
 
 	}
 
-	public Page<ITaskEntityDto> getAlltasks(String search, String pageNumber, String pageSize) {
+	public Page<ITaskEntityDto> getAlltasks11(Date startDate,Date endDate,StatusEnum statusEnum,String search, String pageNumber, String pageSize) {
 
 		Pageable paging = new Pagination().getPagination(pageNumber, pageSize);
 
-		if ((search == "") || (search == null) || (search.length() == 0)) {
+		
+		if ( (startDate == null) || (endDate == null) || (statusEnum == null)  ) {
 
 			return taskEntityRepository.findByOrderById(paging, ITaskEntityDto.class);
+			
+			
 
-		} else {
-			return taskEntityRepository.findBydescription(search, paging, ITaskEntityDto.class);
 		}
+
+		
+		
+		else {
+			
+			return taskEntityRepository.findByStartDateOrEndDateOrStatusEnumOrderById(startDate,endDate,statusEnum, paging, ITaskEntityDto.class);
+		}
+	
+	
+
 	}
+	
 
 	@Override
 	public TaskEntityDto getTaskByDto(Long id) {
@@ -127,23 +151,23 @@ public class TaskEntityServiceImpl implements TaskEntityInterface {
 		return taskEntityDto;
 	}
 
-	@Override
-	public ResponseEntity<?> updatetaskbyuserid(@RequestBody TaskEntityDto taskEntityDto, @PathVariable Long id) {
-
-		TaskEntity taskEntity = taskEntityRepository.findById(id)
-				.orElseThrow(() -> (new ResourceNotFoundException("task not found with given id")));
-		taskEntity.setTaskName(taskEntityDto.getTaskName());
-		taskEntity.setDescription(taskEntityDto.getDescription());
-		taskEntity.setStartDate(taskEntityDto.getStartDate());
-		taskEntity.setEndDate(taskEntityDto.getEndDate());
-		taskEntity.setStatusEnum(taskEntityDto.getStatusEnum());
-		taskEntity.setId(taskEntityDto.getUserId());
-		taskEntityRepository.save(taskEntity);
-
-		return new ResponseEntity<SuccessResponseDto>(
-				new SuccessResponseDto("success", "success", taskEntityRepository.save(taskEntity)),
-				HttpStatus.ACCEPTED);
-	}
+//	@Override
+//	public ResponseEntity<?> updatetaskbyuserid(@RequestBody TaskEntityDto taskEntityDto, @PathVariable Long id) {
+//
+//		TaskEntity taskEntity = taskEntityRepository.findById(id)
+//				.orElseThrow(() -> (new ResourceNotFoundException("task not found with given id")));
+//		taskEntity.setTaskName(taskEntityDto.getTaskName());
+//		taskEntity.setDescription(taskEntityDto.getDescription());
+//		taskEntity.setStartDate(taskEntityDto.getStartDate());
+//		taskEntity.setEndDate(taskEntityDto.getEndDate());
+//		taskEntity.setStatusEnum(taskEntityDto.getStatusEnum());
+//		taskEntity.setId(taskEntityDto.getUserId());
+//		taskEntityRepository.save(taskEntity);
+//
+//		return new ResponseEntity<SuccessResponseDto>(
+//				new SuccessResponseDto("success", "success", taskEntityRepository.save(taskEntity)),
+//				HttpStatus.ACCEPTED);
+//	}
 
 	@Override
 	public ResponseEntity<?> updatetaskbyadmin(TaskEntityDto taskEntityDto, Long id, HttpServletRequest request) {
@@ -156,6 +180,7 @@ public class TaskEntityServiceImpl implements TaskEntityInterface {
 
 		UserRoleEntity userrole = userRoleRepository.finduseridById(user);
 		String role = userrole.getPk().getRole().getRoleName();
+		System.out.println("efwiu"+role);
 
 		try {
 			if (role.equals("Admin")) {
@@ -174,5 +199,23 @@ public class TaskEntityServiceImpl implements TaskEntityInterface {
 				HttpStatus.ACCEPTED);
 
 	}
+
+
+
+
+
+
+
+
+
+
+//	@Override
+//	public Page<ITaskEntityDto> getAlltasks11(Date startDate, Date endDate, StatusEnum statusEnum, String search,
+//			String pageNumber, String pageSize) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+
+	
 
 }
