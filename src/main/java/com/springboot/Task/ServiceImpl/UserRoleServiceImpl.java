@@ -18,15 +18,13 @@ import com.springboot.Task.Repository.AuthRepository;
 
 import com.springboot.Task.Repository.RoleRepository;
 import com.springboot.Task.Repository.UserRoleRepository;
-import com.springboot.Task.Repository.UsersRepository;
+
 import com.springboot.Task.Service.UserRoleServiceInterface;
 
 import Exception.ResourceNotFoundException;
 
 @Service
 public class UserRoleServiceImpl implements UserRoleServiceInterface {
-	@Autowired
-	private UsersRepository usersRepository;
 
 	@Autowired
 	private RoleRepository roleRepository;
@@ -36,9 +34,6 @@ public class UserRoleServiceImpl implements UserRoleServiceInterface {
 
 	@Autowired
 	private AuthRepository authRepository;
-
-	@Autowired
-	private UserRoleRepository userroleRepository;
 
 	@Override
 	public void add(UserRoleRequestDto userRoleRequest) {
@@ -77,12 +72,11 @@ public class UserRoleServiceImpl implements UserRoleServiceInterface {
 
 	@Override
 	public void editUserRole(UserRoleRequestDto userRoleRequestDto) {
-		System.out.println("wrhg");
 
 		ArrayList<UserRoleEntity> userRoles = new ArrayList<>();
 		Users userId = this.authRepository.findById(userRoleRequestDto.getUserId())
 				.orElseThrow(() -> new ResourceNotFoundException("not Found"));
-		System.out.println("eqj");
+
 		RoleEntity roleEntityId = roleRepository.findById(userRoleRequestDto.getRoleId())
 				.orElseThrow(() -> new ResourceNotFoundException("not Found Id"));
 
@@ -97,17 +91,14 @@ public class UserRoleServiceImpl implements UserRoleServiceInterface {
 
 	@Override
 	public void deleteUserRoles(UserRoleRequestDto userRoleRequest) {
-		System.out.println("ahjw");
+
 		Users user = this.authRepository.findById(userRoleRequest.getUserId()).get();
-		System.out.println("sjk"+user);
+
 		RoleEntity entity = this.roleRepository.findById(userRoleRequest.getRoleId()).get();
-		System.out.println("fq"+entity);
 
 		UserRoleId userRoleId = new UserRoleId(user, entity);
 		UserRoleEntity roleEntity = new UserRoleEntity();
 		roleEntity.setPk(userRoleId);
-		System.out.println("qweh");
-		
 
 		this.userRoleRepository.delete(roleEntity);
 

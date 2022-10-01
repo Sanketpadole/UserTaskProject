@@ -97,7 +97,7 @@ public class AuthController {
 			}
 
 		} catch (Exception e) {
-			System.out.println("not found");
+			System.out.println("User not found");
 
 		}
 		return ResponseEntity.ok("done");

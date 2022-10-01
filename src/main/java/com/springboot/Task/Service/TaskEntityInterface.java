@@ -26,21 +26,21 @@ public interface TaskEntityInterface {
 
 	ResponseEntity<?> updatetaskbyadmin(TaskEntityDto taskEntityDto, Long id, HttpServletRequest request);
 
-//	Page<ITaskEntityDto> getAlltasks(String search, String pageNumber, String pageSize);
-
-
-	
-
-	
-
-	
-
-
 	Page<ITaskEntityDto> getAlltasks11(Date startDate, Date endDate, StatusEnum statusEnum, String search,
 			String pageNumber, String pageSize);
 
-//	Page<ITaskEntityDto> getAlltasks(Date startDate, Date endDate, String search, String pageNumber, String pageSize);
+	ResponseEntity<?> getAlltasksofuserbyadmin(TaskEntityDto taskEntityDto, HttpServletRequest request);
 
-	
+	ResponseEntity<?> gettaskbyuser(HttpServletRequest request);
+
+	ResponseEntity<?> deletetasksbyadmin(Long id, HttpServletRequest request);
+
+	ResponseEntity<?> getAlltasksbyadmin(HttpServletRequest request);
+
+	ResponseEntity<?> gettaskofuserbyadmin(HttpServletRequest request);
+
+	ResponseEntity<?> updatestatusbyuser(TaskEntityDto taskEntityDto, HttpServletRequest request);
+
+	ResponseEntity<?> getoverduetask1(Long id);
 
 }

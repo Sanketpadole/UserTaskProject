@@ -12,6 +12,7 @@ public interface ITaskEntityDto {
 	public Date getStartDate();
 
 	public Date getEndDate();
+
 	public StatusEnum getStatusEnum();
 
 }

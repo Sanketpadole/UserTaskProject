@@ -53,12 +53,11 @@ public class UserServiceImpl implements UserServiceInterface {
 
 	@Override
 	public void deleteUser(Long userId) {
-		System.out.println("dfgh");
+
 		this.authRepository.findById(userId)
 				.orElseThrow(() -> new ResourceNotFoundException("User Not Found With Id :" + userId));
-		System.out.println("csDvs");
+
 		this.authRepository.deleteById(userId);
-		System.out.println("xzgbkfxvffu");
 
 	}
 
@@ -90,7 +89,7 @@ public class UserServiceImpl implements UserServiceInterface {
 
 	@Override
 	public UsersDto getUserById(Long id) {
-		System.out.println("afj");
+
 		Users user = this.authRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("User Not Found With ID :" + id));
 		return this.userToDto(user);
@@ -103,7 +102,6 @@ public class UserServiceImpl implements UserServiceInterface {
 		user.setEmail(userDto.getEmail());
 		user.setUsername(userDto.getUsername());
 		user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-		// return "User Registration successful......!!!!!!!!!!!!!!";
 
 		return this.authRepository.save(user);
 

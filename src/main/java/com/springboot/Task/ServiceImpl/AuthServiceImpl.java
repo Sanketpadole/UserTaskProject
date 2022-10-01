@@ -44,8 +44,9 @@ public class AuthServiceImpl implements AuthInterface, UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		Users user;
+
 		user = authRepository.findByEmail(email);
-		System.out.println("afh" + user);
+
 		if (user == null) {
 			throw new UsernameNotFoundException("User not found with Email: " + email);
 		}
@@ -60,11 +61,7 @@ public class AuthServiceImpl implements AuthInterface, UserDetailsService {
 		if ((user.getId() + "permission") != null) {
 			ArrayList<SimpleGrantedAuthority> authorities1 = new ArrayList<>();
 
-			System.out.println("auth1233" + authorities1);
-
 			ArrayList<String> permissions = this.rolePermissionServiceImpl.getPermissionByUserId(user.getId());
-
-			System.out.println("permission" + permissions);
 
 			permissions.forEach(e -> {
 				authorities1.add(new SimpleGrantedAuthority("ROLE_" + e));
@@ -73,7 +70,7 @@ public class AuthServiceImpl implements AuthInterface, UserDetailsService {
 			authorities = authorities1;
 
 		}
-		System.out.println("authorites>>>>>" + authorities);
+
 		return authorities;
 	}
 

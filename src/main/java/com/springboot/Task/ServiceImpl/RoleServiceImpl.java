@@ -46,12 +46,11 @@ public class RoleServiceImpl implements RoleServiceInterface {
 	}
 
 	public Page<ITaskListDto> getAllRoles(String search, String pageNumber, String pageSize) {
-		System.out.println("aefj");
 
 		Pageable paging = new Pagination().getPagination(pageNumber, pageSize);
-		System.out.println("af");
+
 		if ((search == "") || (search == null) || (search.length() == 0)) {
-			System.out.println("aefgh");
+
 			return roleRepository.findByOrderById(paging, ITaskListDto.class);
 
 		} else {
