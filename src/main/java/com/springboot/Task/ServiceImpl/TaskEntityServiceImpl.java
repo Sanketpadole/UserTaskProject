@@ -52,7 +52,6 @@ public class TaskEntityServiceImpl implements TaskEntityInterface {
 	@Override
 	public void addTask(TaskEntityDto taskEntityDto) {
 
-		Users users = this.usersRepository.findById(taskEntityDto.getUserId()).get();
 		TaskEntity taskEntity = new TaskEntity();
 
 		taskEntity.setDescription(taskEntityDto.getDescription());
@@ -66,7 +65,8 @@ public class TaskEntityServiceImpl implements TaskEntityInterface {
 	}
 
 	@Override
-	public void updateTask(TaskEntityDto taskEntityDto, Long id) {
+	public ResponseEntity<?> updateTask(TaskEntityDto taskEntityDto, Long id) {
+
 		TaskEntity taskEntity = new TaskEntity();
 		taskEntity = taskEntityRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("task not found with given id"));
@@ -74,31 +74,38 @@ public class TaskEntityServiceImpl implements TaskEntityInterface {
 		taskEntity.setStatusEnum(taskEntityDto.getStatusEnum());
 
 		TaskHistory taskHistory = new TaskHistory();
-		taskHistory.setTaskId(taskEntity.getId());
+		taskHistory.setStatusEnum(taskEntityDto.getStatusEnum());
+
+		taskHistory.setId(id);
 
 		taskHistory.setName(taskEntityDto.getTaskName());
 
 		historyRepository.save(taskHistory);
 
+		return new ResponseEntity<SuccessResponseDto>(
+				new SuccessResponseDto("Success", "success", historyRepository.save(taskHistory)), HttpStatus.ACCEPTED);
+
 	}
+
+//	@Override
+//	public ResponseEntity<?> updateTask(TaskEntityDto taskEntityDto,HttpServletRequest request){
+//		final String token = request.getHeader("Authorization");
+//		String email;
+//		String token1 = token.substring(7);
+//		email = jwtTokenUtil.getEmailFromToken(token1);
+//		Long user = usersRepository.findByEmail(email).getId();
+//		
+//	}
 
 	public Page<ITaskEntityDto> getAlltasks11(Date startDate, Date endDate, StatusEnum statusEnum, String search,
 			String pageNumber, String pageSize) {
 
 		Pageable paging = new Pagination().getPagination(pageNumber, pageSize);
 
-		if ((startDate == null) || (endDate == null) || (statusEnum == null)) {
+		taskEntityRepository.findByOrderById(paging, ITaskEntityDto.class);
 
-			return taskEntityRepository.findByOrderById(paging, ITaskEntityDto.class);
-
-		}
-
-		else {
-
-			return taskEntityRepository.findByStartDateOrEndDateOrStatusEnumOrderById(startDate, endDate, statusEnum,
-					paging, ITaskEntityDto.class);
-		}
-
+		return taskEntityRepository.findByStartDateOrEndDateOrStatusEnumOrderById(startDate, endDate, statusEnum,
+				paging, ITaskEntityDto.class);
 	}
 
 	@Override
@@ -266,7 +273,7 @@ public class TaskEntityServiceImpl implements TaskEntityInterface {
 			System.out.println("not found");
 
 		}
-		return new ResponseEntity<SuccessResponseDto>(new SuccessResponseDto("success", "success", null),
+		return new ResponseEntity<ErrorResponseDto>(new ErrorResponseDto("Role admin not found", "error"),
 				HttpStatus.ACCEPTED);
 
 	}
@@ -324,9 +331,14 @@ public class TaskEntityServiceImpl implements TaskEntityInterface {
 	}
 
 	@Override
-	public ResponseEntity<?> getoverduetask1(Long id) {
+	public ResponseEntity<?> getoverduetask1(HttpServletRequest request) {
 		Date ts = new Date();
-		TaskEntity taskEntity11 = taskEntityRepository.findById(id)
+		final String token = request.getHeader("Authorization");
+		String email;
+		String token1 = token.substring(7);
+		email = jwtTokenUtil.getEmailFromToken(token1);
+		Long user = usersRepository.findByEmail(email).getId();
+		TaskEntity taskEntity11 = taskEntityRepository.findById(user)
 				.orElseThrow(() -> new ResourceNotFoundException("not found"));
 
 		if (taskEntity11.getStatusEnum().toString().equals("IN_PROGRESS")) {
@@ -341,4 +353,24 @@ public class TaskEntityServiceImpl implements TaskEntityInterface {
 		}
 
 	}
+
+	@Override
+	public ResponseEntity<?> assigntasktouser(TaskEntityDto taskEntityDto) {
+		try {
+			Users user = usersRepository.findById(taskEntityDto.getUserId())
+					.orElseThrow(() -> new ResourceNotFoundException("not found"));
+
+			TaskEntity taskEntity = taskEntityRepository.findById(taskEntityDto.getTaskId())
+					.orElseThrow(() -> new ResourceNotFoundException("not found"));
+			taskEntity.setUserId(user);
+			taskEntityRepository.save(taskEntity);
+
+			return new ResponseEntity<SuccessResponseDto>(
+					new SuccessResponseDto("success", "success", taskEntityRepository.save(taskEntity)),
+					HttpStatus.ACCEPTED);
+		} catch (Exception e) {
+			return new ResponseEntity<ErrorResponseDto>(new ErrorResponseDto("error", "error"), HttpStatus.BAD_REQUEST);
+		}
+	}
+
 }

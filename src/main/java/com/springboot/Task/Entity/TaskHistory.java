@@ -1,27 +1,74 @@
 package com.springboot.Task.Entity;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 public class TaskHistory {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long taskId;
-	private String name;
-	private String description;
-	private StatusEnum status;
-	private long startDate;
-	private long endDate;
+	private Long id;
+	@CreationTimestamp
+	private Date createdAt;
+	@UpdateTimestamp
+	private Date updatedAt;
 
-	public long getTaskId() {
-		return taskId;
+	public TaskHistory(Long id, Date createdAt, Date updatedAt, String name, StatusEnum statusEnum) {
+		super();
+		this.id = id;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+		this.name = name;
+		this.statusEnum = statusEnum;
 	}
 
-	public void setTaskId(long taskId) {
-		this.taskId = taskId;
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public TaskHistory() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public TaskHistory(Long id, String name, StatusEnum statusEnum) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.statusEnum = statusEnum;
+	}
+
+	private String name;
+	@Enumerated(EnumType.STRING)
+	private StatusEnum statusEnum;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -32,69 +79,12 @@ public class TaskHistory {
 		this.name = name;
 	}
 
-	public String getDescription() {
-		return description;
+	public StatusEnum getStatusEnum() {
+		return statusEnum;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public TaskHistory(long taskId, String name, String description, StatusEnum status, long startDate, long endDate) {
-		super();
-		this.taskId = taskId;
-		this.name = name;
-		this.description = description;
-		this.status = status;
-		this.startDate = startDate;
-		this.endDate = endDate;
-	}
-
-	public StatusEnum getStatus() {
-		return status;
-	}
-
-	public void setStatus(StatusEnum statusEnum) {
-		this.status = statusEnum;
-	}
-
-	public TaskHistory(long taskId, String name, String description, String status, long startDate, long endDate) {
-		super();
-		this.taskId = taskId;
-		this.name = name;
-		this.description = description;
-
-		this.startDate = startDate;
-		this.endDate = endDate;
-	}
-
-	public long getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(long startDate) {
-		this.startDate = startDate;
-	}
-
-	public long getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(long endDate) {
-		this.endDate = endDate;
-	}
-
-	public TaskHistory(long taskId, String name, String description, String status, String startDate, String endDate) {
-		super();
-		this.taskId = taskId;
-		this.name = name;
-		this.description = description;
-
-	}
-
-	public TaskHistory() {
-		super();
-
+	public void setStatusEnum(StatusEnum statusEnum) {
+		this.statusEnum = statusEnum;
 	}
 
 }

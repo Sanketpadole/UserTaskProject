@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.springboot.Task.Dto.UsersDto;
 import com.springboot.Task.Entity.Users;
+import com.springboot.Task.Page.CacheOperation;
 import com.springboot.Task.Repository.AuthRepository;
 
 import com.springboot.Task.Service.AuthInterface;
@@ -27,6 +28,9 @@ public class AuthServiceImpl implements AuthInterface, UserDetailsService {
 
 	@Autowired
 	private RolePermissionServiceImpl rolePermissionServiceImpl;
+
+	@Autowired
+	private CacheOperation cache;
 
 	@Override
 	public void registerUser(UsersDto usersDto) {
@@ -44,8 +48,15 @@ public class AuthServiceImpl implements AuthInterface, UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		Users user;
+		if (!cache.isKeyExist(email, email)) {
+			user = authRepository.findByEmail(email);
+			System.out.println("from db");
+			cache.addInCache(email, email, user);
+		} else {
 
-		user = authRepository.findByEmail(email);
+			user = (Users) cache.getFromCache(email, email); // redisTemplate.opsForHash().get(email, email);
+			System.out.println("from cache");
+		}
 
 		if (user == null) {
 			throw new UsernameNotFoundException("User not found with Email: " + email);
@@ -58,7 +69,7 @@ public class AuthServiceImpl implements AuthInterface, UserDetailsService {
 	private ArrayList<SimpleGrantedAuthority> getAuthority(Users user) {
 		ArrayList<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
-		if ((user.getId() + "permission") != null) {
+		if (!cache.isKeyExist(user.getId() + "permission", user.getId() + "permission")) {
 			ArrayList<SimpleGrantedAuthority> authorities1 = new ArrayList<>();
 
 			ArrayList<String> permissions = this.rolePermissionServiceImpl.getPermissionByUserId(user.getId());
@@ -69,8 +80,13 @@ public class AuthServiceImpl implements AuthInterface, UserDetailsService {
 			});
 			authorities = authorities1;
 
-		}
+			cache.addInCache(user.getId() + "permission", user.getId() + "permission", authorities1);
+		} else {
 
+			authorities = (ArrayList<SimpleGrantedAuthority>) cache.getFromCache(user.getId() + "permission",
+					user.getId() + "permission");
+
+		}
 		return authorities;
 	}
 

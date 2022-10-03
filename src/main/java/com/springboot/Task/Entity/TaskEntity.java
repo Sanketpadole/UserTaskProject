@@ -22,7 +22,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
 @Entity
@@ -39,6 +41,42 @@ public class TaskEntity {
 	private Date startDate;
 	private Date endDate;
 	private boolean isActive = true;
+	
+	@CreationTimestamp
+	private Date createdAt;
+	@UpdateTimestamp
+	private Date updatedAt;
+
+	public TaskEntity(Long id, String taskName, String description, Date startDate, Date endDate, boolean isActive,
+			Date createdAt, Date updatedAt, StatusEnum statusEnum, Users userId) {
+		super();
+		this.id = id;
+		this.taskName = taskName;
+		this.description = description;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.isActive = isActive;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+		this.statusEnum = statusEnum;
+		this.userId = userId;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
 
 	@Enumerated(EnumType.STRING)
 	private StatusEnum statusEnum;

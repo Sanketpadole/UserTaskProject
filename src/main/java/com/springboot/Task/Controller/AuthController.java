@@ -42,13 +42,14 @@ public class AuthController {
 
 	ResponseEntity<?> registerUser(@RequestBody UsersDto usersDto) {
 		String password = usersDto.getPassword();
-		if (PasswordValidator.isValid(password)) {
+		String email=usersDto.getEmail();
+		if (PasswordValidator.isValid(password)&& PasswordValidator.isValidforEmail(email)) {
 
 			this.authInterface.registerUser(usersDto);
 			return new ResponseEntity<SuccessResponseDto>(new SuccessResponseDto("success", "success", null),
 					HttpStatus.ACCEPTED);
 		} else {
-			return new ResponseEntity<ErrorResponseDto>(new ErrorResponseDto("Password not valid", password),
+			return new ResponseEntity<ErrorResponseDto>(new ErrorResponseDto("Password Or Email not valid", password),
 					HttpStatus.BAD_REQUEST);
 		}
 	}

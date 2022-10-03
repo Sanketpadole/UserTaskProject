@@ -12,7 +12,12 @@ package com.springboot.Task.Dto;
 
 import java.sql.Date;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+
 import com.springboot.Task.Entity.StatusEnum;
+
+
 
 public class TaskEntityDto {
 	private Long taskId;
@@ -39,6 +44,7 @@ public class TaskEntityDto {
 	private Date startDate;
 	private Date endDate;
 	private Long userId;
+	@Enumerated(EnumType.STRING)
 	private StatusEnum statusEnum;
 	public String getTaskName() {
 		return taskName;

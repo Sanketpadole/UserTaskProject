@@ -18,7 +18,7 @@ public interface TaskEntityInterface {
 
 	void addTask(TaskEntityDto taskEntityDto);
 
-	void updateTask(TaskEntityDto taskEntityDto, Long id);
+	ResponseEntity<?> updateTask(TaskEntityDto taskEntityDto, Long id);
 
 	void deleteTask(Long id);
 
@@ -31,8 +31,6 @@ public interface TaskEntityInterface {
 
 	ResponseEntity<?> getAlltasksofuserbyadmin(TaskEntityDto taskEntityDto, HttpServletRequest request);
 
-	ResponseEntity<?> gettaskbyuser(HttpServletRequest request);
-
 	ResponseEntity<?> deletetasksbyadmin(Long id, HttpServletRequest request);
 
 	ResponseEntity<?> getAlltasksbyadmin(HttpServletRequest request);
@@ -41,6 +39,14 @@ public interface TaskEntityInterface {
 
 	ResponseEntity<?> updatestatusbyuser(TaskEntityDto taskEntityDto, HttpServletRequest request);
 
-	ResponseEntity<?> getoverduetask1(Long id);
+//	ResponseEntity<?> getoverduetask1(Long id);
+
+//	ResponseEntity<?> getoverduetask1(Long id, HttpServletRequest request);
+
+	ResponseEntity<?> getoverduetask1(HttpServletRequest request);
+
+	ResponseEntity<?> assigntasktouser(TaskEntityDto taskEntityDto);
+
+	ResponseEntity<?> gettaskbyuser(HttpServletRequest request);
 
 }

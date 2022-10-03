@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.springboot.Task.Dto.ITaskListDto;
 import com.springboot.Task.Dto.RoleDto;
 import com.springboot.Task.Dto.SuccessResponseDto;
-import com.springboot.Task.Repository.RoleRepository;
+
 import com.springboot.Task.Service.RoleServiceInterface;
 
 @RestController
@@ -25,9 +25,6 @@ import com.springboot.Task.Service.RoleServiceInterface;
 public class RoleController {
 	@Autowired
 	private RoleServiceInterface roleServiceInterface;
-
-	@Autowired
-	private RoleRepository roleRepository;
 
 	@PostMapping("/addroles")
 	public ResponseEntity<?> addRoles(@RequestBody RoleDto roleDto) {

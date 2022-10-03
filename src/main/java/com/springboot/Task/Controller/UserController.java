@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,42 +27,26 @@ import com.springboot.Task.Entity.StatusEnum;
 import com.springboot.Task.Service.TaskEntityInterface;
 
 @RestController
-@RequestMapping("/user1")
+@RequestMapping("/user")
 public class UserController {
 
 	@Autowired
 	private TaskEntityInterface taskEntityInterface;
 
-//	4th point
+//	4th point_______it will check first userid in task table and fetches the data of same userid
 	@GetMapping("/user")
 	public ResponseEntity<?> gettaskbyuser(HttpServletRequest request) {
 		return taskEntityInterface.gettaskbyuser(request);
+
 	}
 
-//		final String Token1 = request.getHeader("Authorization");
-//		String token = null;
-//		String email;
-//		token = Token1.substring(7);
-//		email = jwtTokenUtil.getEmailFromToken(token);
-//		System.out.println("fj" + email);
-//		Long user = usersRepository.findByEmail(email).getId();
-//		System.out.println("aei" + user);
-//
-//		taskEntityRepository.findById(user);
-//
-//		return new ResponseEntity<SuccessResponseDto>(
-//				new SuccessResponseDto("success", "success", taskEntityRepository.findById(user)), HttpStatus.ACCEPTED);
-//
-//	}
+	@PostMapping("/assigntask")
+	ResponseEntity<?> assigntask(@RequestBody TaskEntityDto taskEntityDto) {
+		return taskEntityInterface.assigntasktouser(taskEntityDto);
 
-//	@GetMapping
-//	public ResponseEntity<?> getAllTasks(@RequestParam Date startDate, @RequestParam Date endDate, @RequestParam (defaultValue="") String Search,@RequestParam(defaultValue="1") String pageNumber,@RequestParam(defaultValue="25")String pageSize){
-//		Page<ITaskEntityDto> allRoles = taskEntityInterface.getAlltasks(startDate,endDate,Search, pageNumber, pageSize);
-//		return new ResponseEntity<SuccessResponseDto>(new SuccessResponseDto("not found", "not found", null),
-//				HttpStatus.BAD_REQUEST);
-//	}
+	}
 
-//	8th point
+//	8th point filter
 	@GetMapping
 	public ResponseEntity<?> getAllTasks(@RequestParam(required = false) Date startDate,
 			@RequestParam(required = false) Date endDate, @RequestParam(defaultValue = "") StatusEnum statusEnum,
@@ -80,143 +64,32 @@ public class UserController {
 				HttpStatus.BAD_REQUEST);
 	}
 
-//	@PutMapping("/{id}")
-//	public ResponseEntity<?> update(@RequestBody TaskEntityDto taskEntityDto, @PathVariable Long id) {
-//		return taskEntityInterface.updatetaskbyuserid(taskEntityDto, id);
-//
-//	}
-
-//	@PreAuthorize("hasRole('deleteUserById')")
-
-//	7th point
+//	7th point_____if assign user is admin then and only then he can delete the task
 	@DeleteMapping("/{id}")
 
 	public ResponseEntity<?> deletetasksbyadmin(@PathVariable Long id, HttpServletRequest request) {
 		return taskEntityInterface.deletetasksbyadmin(id, request);
 	}
 
-//		final String token = request.getHeader("Authorization");
-//		String email;
-//		String token1 = token.substring(7);
-//		email = jwtTokenUtil.getEmailFromToken(token1);
-//		Long user = usersRepository.findByEmail(email).getId();
-//
-//		UserRoleEntity userrole = userRoleRepository.finduseridById(user);
-//		String role = userrole.getPk().getRole().getRoleName();
-//
-//		try {
-//			if (role.equals("Admin")) {
-//				TaskEntity taskEntity = taskEntityRepository.findById(id)
-//						.orElseThrow(() -> (new ResourceNotFoundException("not found")));
-//				taskEntityRepository.deleteById(id);
-//				return new ResponseEntity<SuccessResponseDto>(new SuccessResponseDto("success", "success", null),
-//						HttpStatus.ACCEPTED);
-//			}
-//		} catch (Exception e) {
-//			System.out.println("not found");
-//		}
-//		return new ResponseEntity<SuccessResponseDto>(new SuccessResponseDto("success", "success", null),
-//				HttpStatus.ACCEPTED);
-//
-//	}
+//	4th Point________it will check first whether the role of user is admin or not after getting useris from token and then will fetches all the tasks of all users
 
-//	4th Point
-//	@PreAuthorize("hasRole('getAllUsers')")
 	@GetMapping("/admin")
 	public ResponseEntity<?> getAlltasksbyadmin(HttpServletRequest request) {
 		return taskEntityInterface.getAlltasksbyadmin(request);
 	}
 
-//		final String token = request.getHeader("Authorization");
-//		String email;
-//		String token1 = token.substring(7);
-//		email = jwtTokenUtil.getEmailFromToken(token1);
-//		Long user = usersRepository.findByEmail(email).getId();
-//
-//		UserRoleEntity userrole = userRoleRepository.finduseridById(user);
-//
-//		String role = userrole.getPk().getRole().getRoleName();
-//
-//		try {
-//			if (role.equals("Admin")) {
-//
-//				return new ResponseEntity<SuccessResponseDto>(
-//						new SuccessResponseDto("success", "success", taskEntityRepository.findAll()),
-//						HttpStatus.ACCEPTED);
-//
-//			}
-//
-//			else {
-//				System.out.println("not found");
-//			}
-//		}
-//
-//		catch (Exception e) {
-//			System.out.println("not found");
-//
-//		}
-//		return new ResponseEntity<SuccessResponseDto>(new SuccessResponseDto("success", "success", null),
-//				HttpStatus.ACCEPTED);
-//
-//	}
-
-//	9th point
+//	9th point_____here we are gettin userdetailsfrom userid if user of that id is admin then he can get the task assign to that user
 
 	@GetMapping("/admin1")
 	public ResponseEntity<?> gettaskofuserbyadmin(HttpServletRequest request) {
 		return taskEntityInterface.gettaskofuserbyadmin(request);
 	}
 
-//		final String token = request.getHeader("Authorization");
-//		String email;
-//		String token1 = token.substring(7);
-//		email = jwtTokenUtil.getEmailFromToken(token1);
-//		Long user = usersRepository.findByEmail(email).getId();
-//		System.out.println("aaefjkf" + user);
-//
-//		UserRoleEntity userrole = userRoleRepository.finduseridById(user);
-//
-//		String role = userrole.getPk().getRole().getRoleName();
-//		System.out.println("fghf" + role);
-//
-//		if (role.equals("Admin")) {
-//
-//			return new ResponseEntity<SuccessResponseDto>(
-//					new SuccessResponseDto("success", "success", taskEntityRepository.findById(user)),
-//					HttpStatus.ACCEPTED);
-//
-//		}
-//
-//		else {
-//			return new ResponseEntity<SuccessResponseDto>(new SuccessResponseDto("success", "success", null),
-//					HttpStatus.ACCEPTED);
-//		}
-//	}
-
+//	3rd point works only if when users assign task________will get user from token and the same user which got from token can change status of task by calling taskrepository
 	@PatchMapping()
 	public ResponseEntity<?> updatestatusbyuser(@RequestBody TaskEntityDto taskEntityDto, HttpServletRequest request) {
 		return taskEntityInterface.updatestatusbyuser(taskEntityDto, request);
 	}
-//		final String token = request.getHeader("Authorization");
-//		String email;
-//		String token1 = token.substring(7);
-//		email = jwtTokenUtil.getEmailFromToken(token1);
-//		Long user = usersRepository.findByEmail(email).getId();
-//		System.out.println("aaefjkf" + user);
-//		try {
-//			TaskEntity taskEntity = taskEntityRepository.findbyuserId(user);
-//			System.out.println("fhi" + taskEntity);
-//			taskEntity.setStatusEnum(taskEntityDto.getStatusEnum());
-//			taskEntityRepository.save(taskEntity);
-//			return new ResponseEntity<SuccessResponseDto>(
-//					new SuccessResponseDto("success", "success", taskEntityRepository.save(taskEntity)),
-//					HttpStatus.ACCEPTED);
-//		} catch (Exception e) {
-//			return new ResponseEntity<ErrorResponseDto>(new ErrorResponseDto("not found", "not found"),
-//					HttpStatus.ACCEPTED);
-//		}
-//
-//	}
 
 	@PatchMapping("/admin")
 	public ResponseEntity<?> getAlltasksofuserbyadmin(@RequestBody TaskEntityDto taskEntityDto,
@@ -225,7 +98,7 @@ public class UserController {
 		return taskEntityInterface.getAlltasksofuserbyadmin(taskEntityDto, request);
 	}
 
-//	3rd point
+//	3rd 5thpoint________status of task will update only if the assign user is admin
 
 	@PatchMapping("/{id}")
 	public ResponseEntity<?> updatetaskbyadmin(@RequestBody TaskEntityDto taskEntityDto, @PathVariable Long id,
@@ -234,50 +107,9 @@ public class UserController {
 		return taskEntityInterface.updatetaskbyadmin(taskEntityDto, id, request);
 	}
 
-//	@SuppressWarnings("unlikely-arg-type")
-//	@GetMapping("/{id}")
-//	public ResponseEntity<?> getoverduetask(@PathVariable Long id) {
-//		;
-//		Date date = new Date();
-//
-//		Timestamp ts = new Timestamp(date.getTime());
-//
-//		TaskEntity taskEntity = taskEntityRepository.findById(id)
-//				.orElseThrow(() -> new ResourceNotFoundException("not found"));
-//
-//		if (date.compareTo(taskEntity.getEndDate()) == -1
-//				&& taskEntity.getStatusEnum().toString().equals("IN_PROGRESS")) {
-//
-//			taskEntityRepository.findById(id);
-//
-//			return new ResponseEntity<SuccessResponseDto>(
-//					new SuccessResponseDto("success", "success", taskEntityRepository.findById(id)),
-//					HttpStatus.ACCEPTED);
-//
-//		} else {
-//			return new ResponseEntity<ErrorResponseDto>(new ErrorResponseDto("error", "error"), HttpStatus.ACCEPTED);
-//		}
-//	}
-//	10th point
-	@GetMapping("/{id}")
-	public ResponseEntity<?> getoverduetask1(@PathVariable Long id) {
-		return taskEntityInterface.getoverduetask1(id);
+//	10th point______it will check the enddate of task if this enddate is less than current date and task is still in progress then user can see this task
+	@GetMapping("/overdue")
+	public ResponseEntity<?> getoverduetask1(HttpServletRequest request) {
+		return taskEntityInterface.getoverduetask1(request);
 	}
 }
-//		Date ts = new Date();
-//		TaskEntity taskEntity11 = taskEntityRepository.findById(id)
-//				.orElseThrow(() -> new ResourceNotFoundException("not found"));
-//
-//		if (taskEntity11.getStatusEnum().toString().equals("IN_PROGRESS")) {
-//			List<TaskEntity> taskEntity = taskEntityRepository.findByEndDateLessThanAndStatusEnum(ts,
-//					StatusEnum.IN_PROGRESS);
-//			return new ResponseEntity<SuccessResponseDto>(new SuccessResponseDto("success", "success", taskEntity),
-//					HttpStatus.ACCEPTED);
-//		}
-//
-//		else {
-//			return new ResponseEntity<ErrorResponseDto>(new ErrorResponseDto("error", "error"), HttpStatus.BAD_REQUEST);
-//		}
-//
-//	}
-//}

@@ -19,8 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.springboot.Task.Dto.SuccessResponseDto;
 import com.springboot.Task.Dto.UserRoleRequestDto;
 import com.springboot.Task.Entity.UserRoleEntity;
-import com.springboot.Task.Repository.UserRoleRepository;
-import com.springboot.Task.Service.PermissionServiceInterface;
+
 import com.springboot.Task.Service.UserRoleServiceInterface;
 
 @RestController
@@ -29,12 +28,6 @@ public class UserRoleEntityController {
 
 	@Autowired
 	private UserRoleServiceInterface userRoleServiceInterface;
-
-	@Autowired
-	private PermissionServiceInterface permissionserviceInterface;
-
-	@Autowired
-	private UserRoleRepository userRoleRepository;
 
 	@PostMapping
 	public ResponseEntity<?> add(@RequestBody UserRoleRequestDto userRoleRequest) {
