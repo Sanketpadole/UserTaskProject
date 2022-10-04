@@ -21,6 +21,7 @@ import com.springboot.Task.Repository.AuthRepository;
 import com.springboot.Task.Repository.LoggerRepository;
 import com.springboot.Task.Security.JwtTokenUtil;
 import com.springboot.Task.Service.AuthInterface;
+
 import com.springboot.Task.ServiceImpl.AuthServiceImpl;
 
 @RestController
@@ -42,8 +43,8 @@ public class AuthController {
 
 	ResponseEntity<?> registerUser(@RequestBody UsersDto usersDto) {
 		String password = usersDto.getPassword();
-		String email=usersDto.getEmail();
-		if (PasswordValidator.isValid(password)&& PasswordValidator.isValidforEmail(email)) {
+		String email = usersDto.getEmail();
+		if (PasswordValidator.isValid(password) && PasswordValidator.isValidforEmail(email)) {
 
 			this.authInterface.registerUser(usersDto);
 			return new ResponseEntity<SuccessResponseDto>(new SuccessResponseDto("success", "success", null),

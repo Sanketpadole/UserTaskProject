@@ -6,4 +6,6 @@ import com.springboot.Task.Entity.LoggerEntity;
 
 public interface LoggerRepository extends JpaRepository<LoggerEntity, Long> {
 
+	LoggerEntity findByToken(String token);
+
 }
