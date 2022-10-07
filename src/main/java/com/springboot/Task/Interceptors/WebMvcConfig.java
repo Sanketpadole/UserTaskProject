@@ -1,4 +1,5 @@
-package com.example.springboot2.Interceptors;
+package com.springboot.Task.Interceptors;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebMvcConfig implements WebMvcConfigurer {
 
 	public WebMvcConfig() {
+		
 
 	}
 

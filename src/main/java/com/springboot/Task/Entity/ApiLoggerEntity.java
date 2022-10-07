@@ -23,7 +23,6 @@ public class ApiLoggerEntity {
 
 	public ApiLoggerEntity(Long id, String userToken, String ipAddress, String url, String method, String host,
 			String body, Date createdAt) {
-
 		super();
 		this.id = id;
 		this.userToken = userToken;

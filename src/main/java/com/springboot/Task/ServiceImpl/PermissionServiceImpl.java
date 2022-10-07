@@ -8,11 +8,10 @@ import org.springframework.stereotype.Service;
 import com.springboot.Task.Dto.IPermissionListDto;
 import com.springboot.Task.Dto.PermissionDto;
 import com.springboot.Task.Entity.PermissionEntity;
+import com.springboot.Task.Exception.ResourceNotFoundException;
 import com.springboot.Task.Page.Pagination;
 import com.springboot.Task.Repository.PermissionRepository;
 import com.springboot.Task.Service.PermissionServiceInterface;
-
-import Exception.ResourceNotFoundException;
 
 @Service
 public class PermissionServiceImpl implements PermissionServiceInterface {

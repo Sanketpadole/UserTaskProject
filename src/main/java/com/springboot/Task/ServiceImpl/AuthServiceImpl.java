@@ -50,6 +50,7 @@ public class AuthServiceImpl implements AuthInterface, UserDetailsService {
 		Users user;
 		if (!cache.isKeyExist(email, email)) {
 			user = authRepository.findByEmail(email);
+			System.out.println("weekghk");
 			System.out.println("from db");
 			cache.addInCache(email, email, user);
 		} else {

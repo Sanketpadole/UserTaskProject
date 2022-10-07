@@ -12,16 +12,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springboot.Task.Dto.ErrorResponseDto;
+import com.springboot.Task.Dto.LoggerDto;
 import com.springboot.Task.Dto.SuccessResponseDto;
 import com.springboot.Task.Dto.UsersDto;
-import com.springboot.Task.Entity.LoggerEntity;
+
 import com.springboot.Task.Entity.Users;
 import com.springboot.Task.Page.PasswordValidator;
 import com.springboot.Task.Repository.AuthRepository;
 import com.springboot.Task.Repository.LoggerRepository;
 import com.springboot.Task.Security.JwtTokenUtil;
 import com.springboot.Task.Service.AuthInterface;
-
+import com.springboot.Task.Service.LoggerService;
 import com.springboot.Task.ServiceImpl.AuthServiceImpl;
 
 @RestController
@@ -37,7 +38,7 @@ public class AuthController {
 	private JwtTokenUtil jwtTokenUtil;
 
 	@Autowired
-	private LoggerRepository loggerRepositoty;
+	private LoggerService loggerService;
 
 	@PostMapping("/register")
 
@@ -63,6 +64,7 @@ public class AuthController {
 			Users users = new Users();
 
 			users = this.authRepository.findByEmail(usersDto.getEmail());
+
 			String password = usersDto.getPassword();
 			if (PasswordValidator.isValid(password)) {
 
@@ -74,16 +76,16 @@ public class AuthController {
 
 					final String token = jwtTokenUtil.generateToken(userDetails);
 
-					LoggerEntity logger = new LoggerEntity();
+					LoggerDto logger = new LoggerDto();
 					logger.setToken(token);
-					logger.setUserId(users);
+
 					Calendar calendar = Calendar.getInstance();
 
 					calendar.add(Calendar.HOUR_OF_DAY, 5);
 
 					logger.setExpireAt(calendar.getTime());
 
-					this.loggerRepositoty.save(logger);
+					this.loggerService.createlogger(logger, users);
 
 					return new ResponseEntity<SuccessResponseDto>(
 							new SuccessResponseDto("Token Created", "Token", token), HttpStatus.ACCEPTED);

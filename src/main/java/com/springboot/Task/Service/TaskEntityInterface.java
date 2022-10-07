@@ -31,8 +31,6 @@ public interface TaskEntityInterface {
 
 	ResponseEntity<?> getAlltasksofuserbyadmin(TaskEntityDto taskEntityDto, HttpServletRequest request);
 
-	ResponseEntity<?> deletetasksbyadmin(Long id, HttpServletRequest request);
-
 	ResponseEntity<?> getAlltasksbyadmin(HttpServletRequest request);
 
 	ResponseEntity<?> gettaskofuserbyadmin(HttpServletRequest request);
@@ -48,5 +46,7 @@ public interface TaskEntityInterface {
 	ResponseEntity<?> assigntasktouser(TaskEntityDto taskEntityDto);
 
 	ResponseEntity<?> gettaskbyuser(HttpServletRequest request);
+
+	ResponseEntity<?> deletetasksbyadmin(Long id, HttpServletRequest request);
 
 }

@@ -14,14 +14,13 @@ import com.springboot.Task.Entity.RoleEntity;
 import com.springboot.Task.Entity.RolePermissionEntity;
 import com.springboot.Task.Entity.RolePermissionId;
 import com.springboot.Task.Entity.UserRoleEntity;
+import com.springboot.Task.Exception.ResourceNotFoundException;
 import com.springboot.Task.Repository.PermissionRepository;
 import com.springboot.Task.Repository.RolePermissionRepository;
 import com.springboot.Task.Repository.RoleRepository;
 import com.springboot.Task.Repository.UserRoleRepository;
 
 import com.springboot.Task.Service.RolePermissionServiceInterface;
-
-import Exception.ResourceNotFoundException;
 
 @Service
 public class RolePermissionServiceImpl implements RolePermissionServiceInterface {

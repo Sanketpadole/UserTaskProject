@@ -23,6 +23,7 @@ import com.springboot.Task.Entity.TaskEntity;
 import com.springboot.Task.Entity.TaskHistory;
 import com.springboot.Task.Entity.UserRoleEntity;
 import com.springboot.Task.Entity.Users;
+import com.springboot.Task.Exception.ResourceNotFoundException;
 import com.springboot.Task.Page.Pagination;
 import com.springboot.Task.Repository.HistoryRepository;
 import com.springboot.Task.Repository.TaskEntityRepository;
@@ -30,8 +31,6 @@ import com.springboot.Task.Repository.UserRoleRepository;
 import com.springboot.Task.Repository.UsersRepository;
 import com.springboot.Task.Security.JwtTokenUtil;
 import com.springboot.Task.Service.TaskEntityInterface;
-
-import Exception.ResourceNotFoundException;
 
 @Service
 public class TaskEntityServiceImpl implements TaskEntityInterface {
@@ -70,8 +69,8 @@ public class TaskEntityServiceImpl implements TaskEntityInterface {
 		TaskEntity taskEntity = new TaskEntity();
 		taskEntity = taskEntityRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("task not found with given id"));
-
-		taskEntity.setStatusEnum(taskEntityDto.getStatusEnum());
+//
+//		taskEntity.setStatusEnum(taskEntityDto.getStatusEnum());
 
 		TaskHistory taskHistory = new TaskHistory();
 		taskHistory.setStatusEnum(taskEntityDto.getStatusEnum());
@@ -158,6 +157,7 @@ public class TaskEntityServiceImpl implements TaskEntityInterface {
 			if (role.equals("Admin")) {
 				TaskEntity taskEntity = taskEntityRepository.findById(id)
 						.orElseThrow(() -> (new ResourceNotFoundException("not found")));
+
 				taskEntity.setStatusEnum(taskEntityDto.getStatusEnum());
 				taskEntityRepository.save(taskEntity);
 				return new ResponseEntity<SuccessResponseDto>(
@@ -165,9 +165,10 @@ public class TaskEntityServiceImpl implements TaskEntityInterface {
 						HttpStatus.ACCEPTED);
 			}
 		} catch (Exception e) {
-			System.out.println("not found");
+			return new ResponseEntity<ErrorResponseDto>(new ErrorResponseDto("user is not admin", "error"),
+					HttpStatus.ACCEPTED);
 		}
-		return new ResponseEntity<SuccessResponseDto>(new SuccessResponseDto("success", "success", null),
+		return new ResponseEntity<ErrorResponseDto>(new ErrorResponseDto("user is not admin", "error"),
 				HttpStatus.ACCEPTED);
 
 	}
@@ -195,10 +196,12 @@ public class TaskEntityServiceImpl implements TaskEntityInterface {
 						HttpStatus.ACCEPTED);
 			}
 		} catch (Exception e) {
-			new ResponseEntity<ErrorResponseDto>(new ErrorResponseDto("error", "error"), HttpStatus.ACCEPTED);
+			new ResponseEntity<ErrorResponseDto>(new ErrorResponseDto("user is not admin", "error"),
+					HttpStatus.ACCEPTED);
 
 		}
-		return new ResponseEntity<ErrorResponseDto>(new ErrorResponseDto("error", "error"), HttpStatus.ACCEPTED);
+		return new ResponseEntity<ErrorResponseDto>(new ErrorResponseDto("user is not admin", "error"),
+				HttpStatus.ACCEPTED);
 	}
 
 	@Override
@@ -211,10 +214,10 @@ public class TaskEntityServiceImpl implements TaskEntityInterface {
 
 		Long user = usersRepository.findByEmail(email).getId();
 
-		taskEntityRepository.findById(user);
+		TaskEntity taskEntity = taskEntityRepository.findbyuserId(user);
 
-		return new ResponseEntity<SuccessResponseDto>(
-				new SuccessResponseDto("success", "success", taskEntityRepository.findById(user)), HttpStatus.ACCEPTED);
+		return new ResponseEntity<SuccessResponseDto>(new SuccessResponseDto("success", "success", taskEntity),
+				HttpStatus.ACCEPTED);
 
 	}
 
@@ -229,17 +232,19 @@ public class TaskEntityServiceImpl implements TaskEntityInterface {
 		try {
 			UserRoleEntity userrole = userRoleRepository.finduseridById(user);
 			String role = userrole.getPk().getRole().getRoleName();
+
 			if (role.equals("Admin")) {
 				TaskEntity taskEntity = taskEntityRepository.findById(id)
 						.orElseThrow(() -> (new ResourceNotFoundException("not found")));
 				taskEntityRepository.deleteById(id);
-				return new ResponseEntity<SuccessResponseDto>(new SuccessResponseDto("success", "success", null),
+				return new ResponseEntity<SuccessResponseDto>(new SuccessResponseDto("success", "succes", null),
 						HttpStatus.ACCEPTED);
 			}
 		} catch (Exception e) {
-			System.out.println("not found");
+			return new ResponseEntity<ErrorResponseDto>(new ErrorResponseDto("user is not admin", "error"),
+					HttpStatus.ACCEPTED);
 		}
-		return new ResponseEntity<SuccessResponseDto>(new SuccessResponseDto("success", "success", null),
+		return new ResponseEntity<ErrorResponseDto>(new ErrorResponseDto("user is not admin", "error"),
 				HttpStatus.ACCEPTED);
 
 	}
@@ -256,6 +261,7 @@ public class TaskEntityServiceImpl implements TaskEntityInterface {
 			UserRoleEntity userrole = userRoleRepository.finduseridById(user);
 
 			String role = userrole.getPk().getRole().getRoleName();
+
 			if (role.equals("Admin")) {
 
 				return new ResponseEntity<SuccessResponseDto>(
@@ -292,9 +298,9 @@ public class TaskEntityServiceImpl implements TaskEntityInterface {
 			String role = userrole.getPk().getRole().getRoleName();
 
 			if (role.equals("Admin")) {
+				TaskEntity taskEntity = taskEntityRepository.findbyuserId(user);
 
-				return new ResponseEntity<SuccessResponseDto>(
-						new SuccessResponseDto("success", "success", taskEntityRepository.findById(user)),
+				return new ResponseEntity<SuccessResponseDto>(new SuccessResponseDto("success", "success", taskEntity),
 						HttpStatus.ACCEPTED);
 
 			} else {
@@ -302,7 +308,8 @@ public class TaskEntityServiceImpl implements TaskEntityInterface {
 						HttpStatus.ACCEPTED);
 			}
 		} catch (Exception e) {
-			return new ResponseEntity<ErrorResponseDto>(new ErrorResponseDto("error", "error"), HttpStatus.ACCEPTED);
+			return new ResponseEntity<ErrorResponseDto>(new ErrorResponseDto("user is not admin", "error"),
+					HttpStatus.ACCEPTED);
 		}
 
 	}
@@ -338,8 +345,10 @@ public class TaskEntityServiceImpl implements TaskEntityInterface {
 		String token1 = token.substring(7);
 		email = jwtTokenUtil.getEmailFromToken(token1);
 		Long user = usersRepository.findByEmail(email).getId();
-		TaskEntity taskEntity11 = taskEntityRepository.findById(user)
-				.orElseThrow(() -> new ResourceNotFoundException("not found"));
+
+		TaskEntity taskEntity11 = taskEntityRepository.findbyuserId(user);
+
+		;
 
 		if (taskEntity11.getStatusEnum().toString().equals("IN_PROGRESS")) {
 			List<TaskEntity> taskEntity = taskEntityRepository.findByEndDateLessThanAndStatusEnum(ts,
@@ -349,7 +358,8 @@ public class TaskEntityServiceImpl implements TaskEntityInterface {
 		}
 
 		else {
-			return new ResponseEntity<ErrorResponseDto>(new ErrorResponseDto("error", "error"), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<ErrorResponseDto>(new ErrorResponseDto("not found", "status not inProgress"),
+					HttpStatus.BAD_REQUEST);
 		}
 
 	}

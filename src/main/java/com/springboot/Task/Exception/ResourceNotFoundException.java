@@ -1,4 +1,4 @@
-package Exception;
+package com.springboot.Task.Exception;
 
 public class ResourceNotFoundException extends RuntimeException {
 	private static final long serialVersionUID = 1L;

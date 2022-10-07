@@ -98,7 +98,7 @@ public class UserController {
 		return taskEntityInterface.getAlltasksofuserbyadmin(taskEntityDto, request);
 	}
 
-//	3rd 5thpoint________status of task will update only if the assign user is admin
+//	 5thpoint________status of task will update only if the assign user is admin
 
 	@PatchMapping("/{id}")
 	public ResponseEntity<?> updatetaskbyadmin(@RequestBody TaskEntityDto taskEntityDto, @PathVariable Long id,

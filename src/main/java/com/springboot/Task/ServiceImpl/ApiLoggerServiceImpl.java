@@ -16,7 +16,7 @@ public class ApiLoggerServiceImpl implements ApiLoggerSerivce {
 
 	@Override
 	public void createApiLog(ApiLoggerEntity apiDetail) {
-
+		
 		apiLoggerRepository.save(apiDetail);
 
 	}

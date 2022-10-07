@@ -1,7 +1,5 @@
 package com.springboot.Task.Page;
 
-import java.sql.Date;
-
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
@@ -12,11 +10,9 @@ public class Pagination {
 
 	}
 
-	public Pageable getPagination(String pageNumber,String Search) {
+	public Pageable getPagination(String pageNumber, String Search) {
 		return PageRequest.of(Integer.parseInt(pageNumber) - 1, Integer.parseInt(Search));
-		
-		
-	}
 
+	}
 
 }

@@ -9,12 +9,13 @@ import org.springframework.stereotype.Service;
 import com.springboot.Task.Dto.ITaskListDto;
 import com.springboot.Task.Dto.RoleDto;
 import com.springboot.Task.Entity.RoleEntity;
+import com.springboot.Task.Exception.ResourceNotFoundException;
 import com.springboot.Task.Page.Pagination;
 
 import com.springboot.Task.Repository.RoleRepository;
 import com.springboot.Task.Service.RoleServiceInterface;
 
-import Exception.ResourceNotFoundException;
+
 
 @Service
 public class RoleServiceImpl implements RoleServiceInterface {

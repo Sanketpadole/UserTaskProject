@@ -13,7 +13,7 @@ import com.springboot.Task.Entity.RoleEntity;
 import com.springboot.Task.Entity.UserRoleEntity;
 import com.springboot.Task.Entity.UserRoleId;
 import com.springboot.Task.Entity.Users;
-
+import com.springboot.Task.Exception.ResourceNotFoundException;
 import com.springboot.Task.Repository.AuthRepository;
 
 import com.springboot.Task.Repository.RoleRepository;
@@ -21,7 +21,6 @@ import com.springboot.Task.Repository.UserRoleRepository;
 
 import com.springboot.Task.Service.UserRoleServiceInterface;
 
-import Exception.ResourceNotFoundException;
 
 @Service
 public class UserRoleServiceImpl implements UserRoleServiceInterface {

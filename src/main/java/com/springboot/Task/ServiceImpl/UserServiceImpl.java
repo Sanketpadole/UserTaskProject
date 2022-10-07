@@ -14,12 +14,11 @@ import com.springboot.Task.Dto.ITaskEntityDto;
 import com.springboot.Task.Dto.UsersDto;
 
 import com.springboot.Task.Entity.Users;
+import com.springboot.Task.Exception.ResourceNotFoundException;
 import com.springboot.Task.Page.Pagination;
 import com.springboot.Task.Repository.AuthRepository;
 import com.springboot.Task.Repository.TaskEntityRepository;
 import com.springboot.Task.Service.UserServiceInterface;
-
-import Exception.ResourceNotFoundException;
 
 @Service
 public class UserServiceImpl implements UserServiceInterface {

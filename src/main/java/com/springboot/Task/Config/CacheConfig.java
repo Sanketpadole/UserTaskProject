@@ -34,7 +34,7 @@ public class CacheConfig {
 
 		super();
 
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public CacheConfig(String redisHost, int redisPort, String redisPassword) {

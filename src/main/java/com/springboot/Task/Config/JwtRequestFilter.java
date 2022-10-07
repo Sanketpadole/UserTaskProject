@@ -15,6 +15,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+
 import com.springboot.Task.Security.JwtTokenUtil;
 import com.springboot.Task.ServiceImpl.AuthServiceImpl;
 
@@ -32,6 +33,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain Chain)
 			throws ServletException, IOException {
 		final String requestTokenHeader = request.getHeader("Authorization");
+		MultiReadHttpServletRequest multiReadRequest = new MultiReadHttpServletRequest(request);
 		String username = null;
 		String jwtToken = null;
 
@@ -65,7 +67,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 				SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 			}
 		}
-		Chain.doFilter(request, response);
+		Chain.doFilter(multiReadRequest, response);
 	}
 
 }

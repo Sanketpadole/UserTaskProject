@@ -1,5 +1,6 @@
 package com.springboot.Task.Entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -13,14 +14,14 @@ import javax.persistence.OneToOne;
 import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
-public class LoggerEntity {
+public class LoggerEntity implements Serializable {
 	@Id
-
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String token;
 	@CreationTimestamp
 	private Date createdAt;
+
 	private Date expireAt;
 
 	@OneToOne(fetch = FetchType.LAZY)
