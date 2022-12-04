@@ -64,16 +64,18 @@ public class AuthController {
 			Users users = new Users();
 
 			users = this.authRepository.findByEmail(usersDto.getEmail());
+			System.out.println("falhh"+users);
 
 			String password = usersDto.getPassword();
+			System.out.println("fkj"+password);
 			if (PasswordValidator.isValid(password)) {
 
 				if (this.authServiceImpl.comparePassword(password, users.getPassword())) {
 
 					final UserDetails userDetails = this.authServiceImpl.loadUserByUsername(usersDto.getEmail());
-
+					System.out.println("qkj");
 					users = this.authRepository.findByEmail(usersDto.getEmail());
-
+					System.out.println("qkj"+users);
 					final String token = jwtTokenUtil.generateToken(userDetails);
 
 					LoggerDto logger = new LoggerDto();

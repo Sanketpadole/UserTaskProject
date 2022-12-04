@@ -47,8 +47,10 @@ public class AuthServiceImpl implements AuthInterface, UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		System.out.println("adkb");
 		Users user;
 		if (!cache.isKeyExist(email, email)) {
+			System.out.println("hvjh");
 			user = authRepository.findByEmail(email);
 			System.out.println("weekghk");
 			System.out.println("from db");
